@@ -1,3 +1,3 @@
-import Main from './Main'
+import * as main from './main'
 
-export { Main }
+export { main }

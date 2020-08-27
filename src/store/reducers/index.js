@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import Main from './Main'
+import main from './main'
 
 export default combineReducers({
-  Main
+  main
 })

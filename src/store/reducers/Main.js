@@ -1,5 +1,7 @@
 const initialState = {
-  comics: []
+  comics: [],
+  offset: 0,
+  limit: 10
 }
 
 export default (state = initialState, { type, payload }) => {
