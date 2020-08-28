@@ -1,7 +1,9 @@
 import api from '~/api'
 
 const actionTypes = {
-  FETCH_COMICS: 'FETCH_COMICS'
+  FETCH_COMICS: 'FETCH_COMICS',
+  INCREASE_OFFSET: 'INCREASE_OFFSET',
+  LIST_REFRESHING: 'LIST_REFRESHING'
 }
 
 const fetchComics = () => async (dispatch, getState) => {
@@ -10,6 +12,11 @@ const fetchComics = () => async (dispatch, getState) => {
   } = getState()
 
   if (total && comics.lenght >= total) return
+
+  dispatch({
+    type: actionTypes.LIST_REFRESHING,
+    payload: true
+  })
 
   try {
     const {
@@ -22,6 +29,16 @@ const fetchComics = () => async (dispatch, getState) => {
     })
   } catch (error) {
     // show error message
+  } finally {
+    dispatch({
+      type: actionTypes.LIST_REFRESHING,
+      payload: false
+    })
+
+    dispatch({
+      type: actionTypes.INCREASE_OFFSET,
+      payload: 10
+    })
   }
 }
 
