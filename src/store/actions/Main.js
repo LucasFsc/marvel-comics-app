@@ -6,17 +6,23 @@ const actionTypes = {
 
 const fetchComics = () => async (dispatch, getState) => {
   const {
-    main: { offset, limit }
+    main: { comics, offset, limit, total }
   } = getState()
 
+  if (total && comics.lenght >= total) return
+
   try {
-    // const result = await api.comics.fetch({ offset, limit })
-    // dispatch({ type: FETCH_COMICS, payload: '' })
+    const {
+      data: { data: { total: numberOfComics, results } = {} } = {}
+    } = await api.comics.fetch({ offset, limit })
+
+    dispatch({
+      type: actionTypes.FETCH_COMICS,
+      payload: { comics: results, total: numberOfComics }
+    })
   } catch (error) {
     // show error message
   }
-
-  return {}
 }
 
 export { actionTypes, fetchComics }
