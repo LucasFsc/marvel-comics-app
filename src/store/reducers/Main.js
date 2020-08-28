@@ -12,7 +12,11 @@ export default (state = initialState, { type, payload }) => {
   switch (type) {
     case actionTypes.FETCH_COMICS: {
       const { total, comics: incomingComics } = payload
-      return { ...state, comics: [...state.comics, ...incomingComics], total }
+      return {
+        ...state,
+        comics: [...state.comics, ...incomingComics],
+        total
+      }
     }
     case actionTypes.INCREASE_OFFSET: {
       return {

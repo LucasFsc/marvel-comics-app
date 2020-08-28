@@ -8,10 +8,8 @@ const actionTypes = {
 
 const fetchComics = () => async (dispatch, getState) => {
   const {
-    main: { comics, offset, limit, total }
+    main: { offset, limit }
   } = getState()
-
-  if (total && comics.lenght >= total) return
 
   dispatch({
     type: actionTypes.LIST_REFRESHING,

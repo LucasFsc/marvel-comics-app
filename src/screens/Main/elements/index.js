@@ -1,5 +1,5 @@
-import ComicCard from './ComicCard'
-import ListHeader from './ListHeader'
 import ListFooter from './ListFooter'
+import ListHeader from './ListHeader'
+import ListItem from './ListItem'
 
-export { ComicCard, ListFooter, ListHeader }
+export { ListFooter, ListHeader, ListItem }

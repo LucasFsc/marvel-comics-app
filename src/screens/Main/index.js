@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import shortid from 'shortid'
 import { main as mainActions } from '~/store/actions'
 import { Space } from '~/components'
-import { ComicCard, ListFooter, ListHeader } from './elements'
+import { ListFooter, ListHeader, ListItem } from './elements'
 
 export default ({ navigation: { navigate } }) => {
   const dispatch = useDispatch()
-  const comics = useSelector(state => state.main.comics)
-  const listRefreshing = useSelector(state => state.main.listRefreshing)
+
+  const { comics, listRefreshing, total } = useSelector(state => state.main)
 
   useEffect(() => {
     dispatch(mainActions.fetchComics())
@@ -21,14 +21,18 @@ export default ({ navigation: { navigate } }) => {
   }
 
   const handleOnEndReached = () => {
-    if (!listRefreshing) {
+    if (!listRefreshing && total && comics.length < total) {
       dispatch(mainActions.fetchComics())
     }
   }
 
   const renderItem = ({ item }) => (
-    <ComicCard {...item} onPress={() => handleComicCardPress(item)} />
+    <ListItem {...item} onPress={() => handleComicCardPress(item)} />
   )
+
+  const keyExtractor = () => shortid.generate()
+
+  const ItemSeparatorComponent = () => <Space my={2} />
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -39,13 +43,14 @@ export default ({ navigation: { navigate } }) => {
           contentContainerStyle={{
             padding: 16
           }}
-          ItemSeparatorComponent={() => <Space my={2} />}
+          ItemSeparatorComponent={ItemSeparatorComponent}
           ListHeaderComponent={ListHeader}
-          keyExtractor={() => shortid.generate()}
+          keyExtractor={keyExtractor}
           renderItem={renderItem}
           ListFooterComponent={listRefreshing && ListFooter}
           onEndReached={handleOnEndReached}
           onEndReachedThreshold={0.5}
+          removeClippedSubviews
         />
       </Layout>
     </SafeAreaView>
