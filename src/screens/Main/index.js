@@ -34,6 +34,8 @@ export default ({ navigation: { navigate } }) => {
 
   const ItemSeparatorComponent = () => <Space my={2} />
 
+  const ListFooterComponent = listRefreshing && ListFooter
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Layout style={{ flex: 1 }} level="3">
@@ -47,7 +49,7 @@ export default ({ navigation: { navigate } }) => {
           ListHeaderComponent={ListHeader}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
-          ListFooterComponent={listRefreshing && ListFooter}
+          ListFooterComponent={ListFooterComponent}
           onEndReached={handleOnEndReached}
           onEndReachedThreshold={0.5}
           removeClippedSubviews
