@@ -1,14 +1,24 @@
 module.exports = (api) => {
   api.cache(true)
   return {
-    presets: ["babel-preset-expo"],
+    presets: ['babel-preset-expo'],
     plugins: [
-      ["module:react-native-dotenv"],
       [
-        "babel-plugin-root-import",
+        'module:react-native-dotenv',
         {
-          rootPathSuffix: "./src",
-          rootPathPrefix: "~/"
+          moduleName: '@env',
+          path: '.env',
+          blacklist: null,
+          whitelist: null,
+          safe: false,
+          allowUndefined: true
+        }
+      ],
+      [
+        'babel-plugin-root-import',
+        {
+          rootPathSuffix: './src',
+          rootPathPrefix: '~/'
         }
       ]
     ]

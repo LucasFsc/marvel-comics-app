@@ -19,11 +19,14 @@
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
+    "@reduxjs/toolkit": "^1.4.0",
     "@ui-kitten/components": "^5.0.0",
     "@ui-kitten/eva-icons": "^5.0.0",
     "axios": "^0.20.0",
     "expo": "~38.0.8",
+    "expo-constants": "~9.1.1",
     "expo-status-bar": "^1.0.2",
+    "js-md5": "^0.7.3",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
@@ -33,7 +36,13 @@
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",
     "react-native-svg": "12.1.0",
-    "react-native-web": "~0.11.7"
+    "react-native-web": "~0.11.7",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "shortid": "^2.2.15",
+    "styled-components": "^5.1.1",
+    "styled-system": "^5.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
@@ -53,6 +62,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
     "prettier": "^2.1.0",
+    "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "^16.13.1"
   },
   "private": true
