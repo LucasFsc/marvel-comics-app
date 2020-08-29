@@ -5,7 +5,10 @@ const initialState = {
   offset: 0,
   limit: 10,
   total: undefined,
-  listRefreshing: false
+  listRefreshing: false,
+  searching: false,
+  searchingText: null,
+  characterRelatedComics: []
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -16,6 +19,12 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         comics: [...state.comics, ...incomingComics],
         total
+      }
+    }
+    case actionTypes.FETCH_COMICS_BY_CHARACTER_NAME: {
+      return {
+        ...state,
+        characterRelatedComics: payload
       }
     }
     case actionTypes.INCREASE_OFFSET: {
@@ -30,6 +39,21 @@ export default (state = initialState, { type, payload }) => {
         listRefreshing: payload
       }
     }
+    case actionTypes.ON_SEARCHING_TEXT: {
+      return {
+        ...state,
+        searchingText: payload
+      }
+    }
+    case actionTypes.TOGGLE_SEARCHING: {
+      return {
+        ...state,
+        searching: payload,
+        searchingText: null,
+        characterRelatedComics: []
+      }
+    }
+
     default:
       return state
   }

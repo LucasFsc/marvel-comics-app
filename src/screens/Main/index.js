@@ -6,17 +6,30 @@ import shortid from 'shortid'
 import { main as mainActions } from '~/store/actions'
 import { Space } from '~/components'
 import { ListFooter, ListHeader, ListItem } from './elements'
+import { debounce } from '~/utils'
 
-export default ({ navigation: { navigate } }) => {
+export default (/* { navigation: { navigate } } */) => {
   const dispatch = useDispatch()
 
-  const { comics, listRefreshing, total } = useSelector(state => state.main)
+  const {
+    characterRelatedComics,
+    comics,
+    listRefreshing,
+    searchingText,
+    total
+  } = useSelector(state => state.main)
 
   useEffect(() => {
     dispatch(mainActions.fetchComics())
   }, [])
 
-  const handleComicCardPress = item => {
+  useEffect(() => {
+    debounce(() => {
+      dispatch(mainActions.fetchComicsByCharacterName(searchingText))
+    }, 300)
+  }, [searchingText])
+
+  const handleComicCardPress = (/* item */) => {
     // navigate
   }
 
@@ -36,11 +49,15 @@ export default ({ navigation: { navigate } }) => {
 
   const ListFooterComponent = listRefreshing && ListFooter
 
+  const predicate = characterRelatedComics.lenght
+    ? characterRelatedComics
+    : comics
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Layout style={{ flex: 1 }} level="3">
         <FlatList
-          data={comics}
+          data={predicate}
           refreshing={listRefreshing}
           contentContainerStyle={{
             padding: 16
