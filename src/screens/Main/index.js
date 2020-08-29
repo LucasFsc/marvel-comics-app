@@ -5,23 +5,54 @@ import { useDispatch, useSelector } from 'react-redux'
 import shortid from 'shortid'
 import { main as mainActions } from '~/store/actions'
 import { Space } from '~/components'
-import { ListFooter, ListHeader, ListItem } from './elements'
+import { ListEmpty, ListFooter, ListHeader, ListItem } from './elements'
+import { debounce } from '~/utils'
 
-export default ({ navigation: { navigate } }) => {
+export default (/* { navigation: { navigate } } */) => {
   const dispatch = useDispatch()
 
-  const { comics, listRefreshing, total } = useSelector(state => state.main)
+  const {
+    characterSearchIds,
+    characterSearchComics,
+    characterSearchTotal,
+    comics,
+    listRefreshing,
+    searching,
+    searchingText,
+    total
+  } = useSelector(state => state.main)
 
   useEffect(() => {
     dispatch(mainActions.fetchComics())
   }, [])
 
-  const handleComicCardPress = item => {
+  useEffect(() => {
+    if (searching && searchingText) {
+      debounce(() => {
+        dispatch(mainActions.fetchCharacterIdsByName(searchingText))
+      }, 700)
+    }
+  }, [searchingText])
+
+  useEffect(() => {
+    if (characterSearchIds.length) {
+      dispatch(mainActions.fetchComicsByCharacterIds(characterSearchIds))
+    }
+  }, [characterSearchIds])
+
+  const handleComicCardPress = (/* item */) => {
     // navigate
   }
 
   const handleOnEndReached = () => {
-    if (!listRefreshing && total && comics.length < total) {
+    if (
+      searching &&
+      !listRefreshing &&
+      characterSearchTotal &&
+      characterSearchComics.length < characterSearchTotal
+    ) {
+      dispatch(mainActions.fetchComicsByCharacterIds(characterSearchIds))
+    } else if (!listRefreshing && total && comics.length < total) {
       dispatch(mainActions.fetchComics())
     }
   }
@@ -36,11 +67,15 @@ export default ({ navigation: { navigate } }) => {
 
   const ListFooterComponent = listRefreshing && ListFooter
 
+  const ListEmptyComponent = !listRefreshing && ListEmpty
+
+  const data = searching ? characterSearchComics : comics
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Layout style={{ flex: 1 }} level="3">
         <FlatList
-          data={comics}
+          data={data}
           refreshing={listRefreshing}
           contentContainerStyle={{
             padding: 16
@@ -50,6 +85,7 @@ export default ({ navigation: { navigate } }) => {
           keyExtractor={keyExtractor}
           renderItem={renderItem}
           ListFooterComponent={ListFooterComponent}
+          ListEmptyComponent={ListEmptyComponent}
           onEndReached={handleOnEndReached}
           onEndReachedThreshold={0.5}
           removeClippedSubviews
