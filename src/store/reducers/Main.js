@@ -1,14 +1,18 @@
 import { actionTypes } from '../actions/main'
 
 const initialState = {
+  characterSearchIds: [],
+  characterSearchComics: [],
+  characterSearchOffset: 0,
+  characterSearchLimit: 10,
+  characterSearchTotal: undefined,
   comics: [],
   offset: 0,
   limit: 10,
-  total: undefined,
   listRefreshing: false,
   searching: false,
   searchingText: null,
-  characterRelatedComics: []
+  total: undefined
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -21,16 +25,36 @@ export default (state = initialState, { type, payload }) => {
         total
       }
     }
-    case actionTypes.FETCH_COMICS_BY_CHARACTER_NAME: {
+    case actionTypes.FETCH_CHARACTER_IDS_BY_NAME: {
       return {
         ...state,
-        characterRelatedComics: payload
+        characterSearchIds: payload,
+        characterSearchComics: [],
+        characterSearchOffset: 0,
+        characterSearchTotal: undefined
+      }
+    }
+    case actionTypes.FETCH_COMICS_BY_CHARACTER_IDS: {
+      const { total, comics: incomingComics } = payload
+      return {
+        ...state,
+        characterSearchComics: [
+          ...state.characterSearchComics,
+          ...incomingComics
+        ],
+        characterSearchTotal: total
       }
     }
     case actionTypes.INCREASE_OFFSET: {
       return {
         ...state,
         offset: state.offset + payload
+      }
+    }
+    case actionTypes.INCREASE_CHARACTER_OFFSET: {
+      return {
+        ...state,
+        characterSearchOffset: state.characterSearchOffset + payload
       }
     }
     case actionTypes.LIST_REFRESHING: {
@@ -50,7 +74,11 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         searching: payload,
         searchingText: null,
-        characterRelatedComics: []
+
+        characterSearchIds: [],
+        characterSearchComics: [],
+        characterSearchOffset: 0,
+        characterSearchTotal: undefined
       }
     }
 

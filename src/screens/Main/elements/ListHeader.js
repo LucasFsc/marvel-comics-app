@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
   View as RNView,
   TouchableOpacity as RNTO,
@@ -29,9 +29,15 @@ const Icon = styled(UIKittenIcon)`
 
 export default () => {
   const theme = useTheme()
-
-  const { searching, searchingText } = useSelector(store => store.main)
   const dispatch = useDispatch()
+  const { searching, searchingText } = useSelector(store => store.main)
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    if (searching) {
+      inputRef?.current?.focus()
+    }
+  }, [searching])
 
   return (
     <>
@@ -41,6 +47,7 @@ export default () => {
             <Input
               style={{ flex: 1 }}
               onChangeText={text => dispatch(mainActions.onSearchText(text))}
+              returnKeyType="done"
               value={searchingText}
               accessoryRight={props => (
                 <TouchableWithoutFeedback
@@ -49,6 +56,7 @@ export default () => {
                   <Icon {...props} name="close-outline" />
                 </TouchableWithoutFeedback>
               )}
+              ref={inputRef}
             />
           ) : (
             <>
