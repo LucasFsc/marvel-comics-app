@@ -1,17 +1,12 @@
 import React, { memo } from 'react'
-import { Card, Text as UiKittenText } from '@ui-kitten/components'
-import { View, Image as RNImage } from 'react-native'
+import { Card, Text } from '@ui-kitten/components'
+import { View as RNView, Image as RNImage } from 'react-native'
 import styled from 'styled-components'
-import { typography } from 'styled-system'
+import { flexbox } from 'styled-system'
 import { Space } from '~/components'
 
-const Text = styled(UiKittenText)`
-  ${typography}
-`
-
-const Row = styled(View)`
-  flex: 1;
-  flex-direction: row;
+const View = styled(RNView)`
+  ${flexbox}
 `
 
 const Image = styled(RNImage)`
@@ -28,19 +23,19 @@ export default memo(
     onPress = () => {}
   }) => (
     <Card onPress={onPress} activeOpacity={0.5}>
-      <Row>
+      <View flex={1} flexDirection="row">
         <Image
           source={{
             uri: `${path}/portrait_small.${extension}`
           }}
         />
         <Space mx={2} />
-        <View style={{ flex: 1 }}>
+        <View flex={1}>
           <Text category="h4">{title}</Text>
           {!!items.length && (
             <>
               <Space my={2} />
-              <Row style={{ flexWrap: 'wrap' }}>
+              <View flex={1} flexWrap="wrap" flexDirection="row">
                 <Text category="p2">Authors: </Text>
                 {items?.map(({ name }, index) => {
                   const predicate = index < items.length - 1
@@ -52,11 +47,11 @@ export default memo(
                     </Text>
                   )
                 })}
-              </Row>
+              </View>
             </>
           )}
         </View>
-      </Row>
+      </View>
     </Card>
   )
 )
