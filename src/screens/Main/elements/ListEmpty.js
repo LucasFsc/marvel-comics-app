@@ -21,8 +21,9 @@ export default () => {
   return (
     <View alignItems="center">
       {searching && !!searchingText && !characterSearchComics.length && (
-        <Text textAlign="center">
-          No comic was found with the character name {searchingText}
+        <Text textAlign="center" category="p1">
+          No comic was found with the character name{' '}
+          <Text category="s1">{searchingText}</Text>
         </Text>
       )}
     </View>
