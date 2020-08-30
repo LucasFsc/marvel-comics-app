@@ -6,7 +6,8 @@ const {
 } = getDefaultConfig(__dirname)
 
 const evaConfig = {
-  evaPackage: '@eva-design/eva'
+  evaPackage: '@eva-design/eva',
+  customMappingPath: './mapping.json'
 }
 
 module.exports = MetroConfig.create(evaConfig, {

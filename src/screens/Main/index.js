@@ -8,7 +8,7 @@ import { Space } from '~/components'
 import { ListEmpty, ListFooter, ListHeader, ListItem } from './elements'
 import { debounce } from '~/utils'
 
-export default (/* { navigation: { navigate } } */) => {
+export default ({ navigation: { navigate } }) => {
   const dispatch = useDispatch()
 
   const {
@@ -40,8 +40,8 @@ export default (/* { navigation: { navigate } } */) => {
     }
   }, [characterSearchIds])
 
-  const handleComicCardPress = (/* item */) => {
-    // navigate
+  const handleComicCardPress = item => {
+    navigate('ComicDetails', { ...item })
   }
 
   const handleOnEndReached = () => {
