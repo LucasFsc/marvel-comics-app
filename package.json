@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest"
+    "test": "jest",
+    "setup": "cp env.example .env && yarn"
   },
   "jest": {
     "preset": "react-native",
