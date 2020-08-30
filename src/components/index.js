@@ -1,3 +1,4 @@
+import DataProvider from './DataProvider'
 import Space from './Space'
 
-export { Space }
+export { DataProvider, Space }

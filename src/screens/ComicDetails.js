@@ -15,7 +15,7 @@ import {
 } from 'react-native'
 import styled from 'styled-components'
 import { flexbox, space, typography } from 'styled-system'
-import { Space } from '~/components'
+import { DataProvider, Space } from '~/components'
 
 const View = styled(RNView)`
   ${flexbox}
@@ -59,6 +59,7 @@ export default ({
     <Divider />
     <Layout style={{ flex: 1 }} level="4">
       <ScrollView contentContainerStyle={{ padding: 16 }}>
+        <Space my={2} />
         <Text textAlign="center" category="h6">
           {title}
         </Text>
@@ -70,11 +71,13 @@ export default ({
             }}
           />
         </View>
-        <Space my={2} />
         {description && (
-          <Text category="s1">
-            Description: <Text category="p1">{description}</Text>
-          </Text>
+          <>
+            <Space my={2} />
+            <Text category="s1">
+              Description: <Text category="p1">{description}</Text>
+            </Text>
+          </>
         )}
         <Space my={2} />
         <Text category="s1">
@@ -115,6 +118,8 @@ export default ({
             </View>
           </>
         )}
+        <Space my={2} />
+        <DataProvider />
       </ScrollView>
     </Layout>
   </SafeAreaView>

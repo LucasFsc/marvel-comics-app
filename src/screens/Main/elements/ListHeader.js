@@ -10,6 +10,7 @@ import { Icon as UIKittenIcon, Input, useTheme } from '@ui-kitten/components'
 import { useDispatch, useSelector } from 'react-redux'
 import MarverLogo from '~/assets/images/marvel-logo.svg'
 import { main as mainActions } from '~/store/actions'
+import { DataProvider, Space } from '~/components'
 
 const View = styled(RNView)`
   ${flexbox}
@@ -87,6 +88,8 @@ export default () => {
           </>
         )}
       </View>
+      <Space mt={3} />
+      <DataProvider />
     </View>
   )
 }
