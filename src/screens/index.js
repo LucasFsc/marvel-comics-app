@@ -1,3 +1,4 @@
+import ComicDetails from './ComicDetails'
 import Main from './Main'
 
-export { Main }
+export { ComicDetails, Main }

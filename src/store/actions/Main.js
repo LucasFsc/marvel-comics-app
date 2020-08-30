@@ -13,8 +13,10 @@ const actionTypes = {
 
 const fetchComics = (quantity = 10) => async (dispatch, getState) => {
   const {
-    main: { offset, limit }
+    main: { comics, offset, limit, listRefreshing, total }
   } = getState()
+
+  if (listRefreshing || (total && comics.length >= total)) return
 
   dispatch({
     type: actionTypes.LIST_REFRESHING,
@@ -23,12 +25,12 @@ const fetchComics = (quantity = 10) => async (dispatch, getState) => {
 
   try {
     const {
-      data: { data: { total, results: comics } = {} } = {}
+      data: { data: { total: numberOfComics, results } = {} } = {}
     } = await api.comics.fetch({ offset, limit })
 
     dispatch({
       type: actionTypes.FETCH_COMICS,
-      payload: { comics, total }
+      payload: { comics: results, total: numberOfComics }
     })
   } catch (error) {
     // show error message
@@ -45,30 +47,27 @@ const fetchComics = (quantity = 10) => async (dispatch, getState) => {
   }
 }
 
-const fetchCharacterIdsByName = name => async dispatch => {
-  try {
-    const {
-      data: { data: { results = [] } = {} } = {}
-    } = await api.characters.fetchByName({ name })
-
-    const characterIds = results.map(({ id }) => id)
-
-    dispatch({
-      type: actionTypes.FETCH_CHARACTER_IDS_BY_NAME,
-      payload: characterIds
-    })
-  } catch (error) {
-    // show error message
-  }
-}
-
 const fetchComicsByCharacterIds = (characterIds, quantity = 10) => async (
   dispatch,
   getState
 ) => {
   const {
-    main: { characterSearchOffset, characterSearchLimit }
+    main: {
+      characterSearchOffset,
+      characterSearchLimit,
+      characterSearchComics,
+      characterSearchTotal,
+      listRefreshing
+    }
   } = getState()
+
+  if (
+    listRefreshing ||
+    (characterSearchTotal &&
+      characterSearchComics.length >= characterSearchTotal)
+  ) {
+    return
+  }
 
   dispatch({
     type: actionTypes.LIST_REFRESHING,
@@ -100,6 +99,23 @@ const fetchComicsByCharacterIds = (characterIds, quantity = 10) => async (
       type: actionTypes.INCREASE_CHARACTER_OFFSET,
       payload: quantity
     })
+  }
+}
+
+const fetchCharacterIdsByName = name => async dispatch => {
+  try {
+    const {
+      data: { data: { results = [] } = {} } = {}
+    } = await api.characters.fetchByName({ name })
+
+    const characterIds = results.map(({ id }) => id)
+
+    dispatch({
+      type: actionTypes.FETCH_CHARACTER_IDS_BY_NAME,
+      payload: characterIds
+    })
+  } catch (error) {
+    // show error message
   }
 }
 

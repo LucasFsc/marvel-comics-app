@@ -8,18 +8,16 @@ import { Space } from '~/components'
 import { ListEmpty, ListFooter, ListHeader, ListItem } from './elements'
 import { debounce } from '~/utils'
 
-export default (/* { navigation: { navigate } } */) => {
+export default ({ navigation: { navigate } }) => {
   const dispatch = useDispatch()
 
   const {
+    comics,
     characterSearchIds,
     characterSearchComics,
-    characterSearchTotal,
-    comics,
     listRefreshing,
     searching,
-    searchingText,
-    total
+    searchingText
   } = useSelector(state => state.main)
 
   useEffect(() => {
@@ -40,19 +38,14 @@ export default (/* { navigation: { navigate } } */) => {
     }
   }, [characterSearchIds])
 
-  const handleComicCardPress = (/* item */) => {
-    // navigate
+  const handleComicCardPress = item => {
+    navigate('ComicDetails', { ...item })
   }
 
   const handleOnEndReached = () => {
-    if (
-      searching &&
-      !listRefreshing &&
-      characterSearchTotal &&
-      characterSearchComics.length < characterSearchTotal
-    ) {
+    if (searching) {
       dispatch(mainActions.fetchComicsByCharacterIds(characterSearchIds))
-    } else if (!listRefreshing && total && comics.length < total) {
+    } else {
       dispatch(mainActions.fetchComics())
     }
   }
