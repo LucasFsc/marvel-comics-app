@@ -36,7 +36,7 @@ export default memo(
             <>
               <Space my={2} />
               <View flex={1} flexWrap="wrap" flexDirection="row">
-                <Text category="p2">Authors: </Text>
+                <Text category="s2">Authors: </Text>
                 {items?.map(({ name }, index) => {
                   const predicate = index < items.length - 1
 
