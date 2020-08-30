@@ -18,6 +18,7 @@ import {
   Inter_800ExtraBold,
   Inter_900Black
 } from '@expo-google-fonts/inter'
+import FlashMessage from 'react-native-flash-message'
 import theme from './theme.json'
 import Navigator from '~/router'
 import store from '~/store'
@@ -46,6 +47,7 @@ export default () => {
           <StatusBar theme="dark" />
           <Navigator />
         </Provider>
+        <FlashMessage position="top" icon="auto" />
       </ApplicationProvider>
     </>
   )
