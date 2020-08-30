@@ -1,3 +1,4 @@
+import { showMessage } from 'react-native-flash-message'
 import api from '~/api'
 
 const actionTypes = {
@@ -33,7 +34,11 @@ const fetchComics = (quantity = 10) => async (dispatch, getState) => {
       payload: { comics: results, total: numberOfComics }
     })
   } catch (error) {
-    // show error message
+    showMessage({
+      message: 'Whoops!',
+      description: 'An error has occurred.',
+      type: 'danger'
+    })
   } finally {
     dispatch({
       type: actionTypes.LIST_REFRESHING,
@@ -88,7 +93,11 @@ const fetchComicsByCharacterIds = (characterIds, quantity = 10) => async (
       payload: { comics, total }
     })
   } catch (error) {
-    // show error message
+    showMessage({
+      message: 'Whoops!',
+      description: 'An error has occurred.',
+      type: 'danger'
+    })
   } finally {
     dispatch({
       type: actionTypes.LIST_REFRESHING,
@@ -115,7 +124,11 @@ const fetchCharacterIdsByName = name => async dispatch => {
       payload: characterIds
     })
   } catch (error) {
-    // show error message
+    showMessage({
+      message: 'Whoops!',
+      description: 'An error has occurred.',
+      type: 'danger'
+    })
   }
 }
 
